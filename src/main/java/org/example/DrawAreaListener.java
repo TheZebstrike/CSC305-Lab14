@@ -7,7 +7,10 @@ import java.awt.event.MouseListener;
 public class DrawAreaListener implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e){
+        Point point = new Point(e.getX(), e.getY());
         Repository.getInstance().addPoint(new Point(e.getX(), e.getY()));
+
+        MQTTManager.getInstance().publishPoint(point);
     }
 
     @Override
