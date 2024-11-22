@@ -8,9 +8,8 @@ public class DrawAreaListener implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e){
         Point point = new Point(e.getX(), e.getY());
-        Repository.getInstance().addPoint(new Point(e.getX(), e.getY()));
-
-        MQTTManager.getInstance().publishPoint(point);
+        Repository.getInstance().addPoint(point);
+        Repository.getInstance().repaint();
     }
 
     @Override
