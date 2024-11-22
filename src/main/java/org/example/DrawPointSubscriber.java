@@ -28,7 +28,7 @@ public class DrawPointSubscriber implements MqttCallback, Runnable{
     public void run() {
         while (true) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000/30);
                 publishPoints();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -38,12 +38,14 @@ public class DrawPointSubscriber implements MqttCallback, Runnable{
 
     public void publishPoints() {
         try {
-            String content = Repository.getInstance().pointsToString();
-            MqttMessage message = new MqttMessage(content.getBytes());
-            message.setQos(2);
-            if (client.isConnected()) {
-                client.publish(TOPIC, message);
-                System.out.println("client: " + content);
+            if (Repository.getInstance().getReady()) {
+                String content = Repository.getInstance().pointsToString();
+                MqttMessage message = new MqttMessage(content.getBytes());
+                message.setQos(2);
+                if (client.isConnected()) {
+                    client.publish(TOPIC, message);
+                    System.out.println("client: " + content);
+                }
             }
         } catch (MqttException e) {
             e.printStackTrace();
@@ -56,6 +58,7 @@ public class DrawPointSubscriber implements MqttCallback, Runnable{
 
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) {
+        Repository.getInstance().setReady(Boolean.FALSE);
         String content = new String(mqttMessage.getPayload());
         Repository.getInstance().parseAndSetPoints(content);
         Repository.getInstance().repaint();

@@ -7,9 +7,7 @@ import java.util.Stack;
 public class Repository extends PropertyChangeSupport {
     private static Repository instance;
     private Stack<Point> points = new Stack<>();
-    private String subscriber_id;
-    private String publisher_id;
-    private String whoAmI;
+    private Boolean isReady = Boolean.TRUE;
 
     public Repository(){
         super(new Object());
@@ -34,29 +32,6 @@ public class Repository extends PropertyChangeSupport {
         firePropertyChange("points", null, point);
     }
 
-    public String getSubscriber_id() {
-        return subscriber_id;
-    }
-
-    public void setSubscriber_id(String subscriber_id) {
-        this.subscriber_id = subscriber_id;
-    }
-
-    public String getPublisher_id() {
-        return publisher_id;
-    }
-
-    public void setPublisher_id(String publisher_id) {
-        this.publisher_id = publisher_id;
-    }
-
-    public String getWhoAmI() {
-        return whoAmI;
-    }
-
-    public void setWhoAmI(String whoAmI) {
-        this.whoAmI = whoAmI;
-    }
     public String pointsToString() {
         StringBuilder sb = new StringBuilder();
         for (Point point : points) {
@@ -78,14 +53,25 @@ public class Repository extends PropertyChangeSupport {
                 }
             }
         }
-        if (!pts.isEmpty()) {
+        if ((pts.size() == 10 && !pts.equals(points)) || pts.size() > points.size()) {
             this.points = new Stack<>();
             for (Point point : pts) {
                 addPoint(point);
             }
+            setReady(true);
+        } else {
+            setReady(false);
         }
     }
     public void repaint() {
         firePropertyChange("repaint", 0, 1);
+    }
+
+    public Boolean getReady() {
+        return isReady;
+    }
+
+    public void setReady(Boolean ready) {
+        isReady = ready;
     }
 }

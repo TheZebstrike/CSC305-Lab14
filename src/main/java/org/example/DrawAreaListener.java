@@ -9,6 +9,7 @@ public class DrawAreaListener implements MouseListener{
     public void mouseClicked(MouseEvent e){
         Point point = new Point(e.getX(), e.getY());
         Repository.getInstance().addPoint(point);
+        Repository.getInstance().setReady(true);
         Repository.getInstance().repaint();
     }
 
