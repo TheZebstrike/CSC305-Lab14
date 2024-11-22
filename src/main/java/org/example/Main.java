@@ -13,12 +13,14 @@ public class Main extends JFrame{
         canvas.addMouseListener(drawAreaListener);
 
         Repository.getInstance().addPropertyChangeListener(canvas);
+
+        MQTTManager.getInstance();
     }
 
     public static void main(String[] args){
         Main main = new Main();
         main.setSize(500, 500);
-        main.setTitle("My Lab");
+        main.setTitle("MQTT Click and Draw Dot");
         main.setLocationRelativeTo(null);
         main.setDefaultCloseOperation(EXIT_ON_CLOSE);
         main.setVisible(true);

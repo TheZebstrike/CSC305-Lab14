@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 public class DrawArea extends JPanel implements PropertyChangeListener{
+    @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         List<Point> points = Repository.getInstance().getPoints();
@@ -20,8 +21,6 @@ public class DrawArea extends JPanel implements PropertyChangeListener{
             }
             g.fillOval(p.x, p.y, 10, 10);
         }
-
-        //didn't get to the distance/shortest path part in time
     }
 
     @Override
